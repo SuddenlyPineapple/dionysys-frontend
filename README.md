@@ -1,4 +1,4 @@
-# hackathon-boilerplate
+# DIONYSYS
 
 ## Project setup
 ```
