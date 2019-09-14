@@ -12,6 +12,10 @@ export default new Vuex.Store({
         to: "/"
       },
       {
+        text: "Machines",
+        to: "/machines"
+      },
+      {
         text: "Configurations",
         to: "/configs"
       },

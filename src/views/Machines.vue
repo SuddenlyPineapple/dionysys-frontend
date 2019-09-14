@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>Raports</h1>
+        <h1>Machines</h1>
       </v-col>
       <v-col cols="12">
         <v-data-table
@@ -36,17 +36,15 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data: () => ({
     headers: [
       {
-        text: "Raport ID",
+        text: "Machine ID",
         align: "left",
         value: "id"
       },
-      { text: "Date", value: "timestamp" },
+      { text: "Date", value: "date" },
       { text: "Status", value: "status" }
     ],
     raportsList: [
@@ -65,16 +63,6 @@ export default {
     ],
     expanded: [],
     dense: true
-  }),
-  methods: {
-    getRaports() {
-      axios.get("http://10.250.166.121:8080/report").then(response => {
-        this.raportsList = response.data.reports;
-      });
-    }
-  },
-  mounted() {
-    this.getRaports();
-  }
+  })
 };
 </script>

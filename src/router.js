@@ -4,6 +4,7 @@ import Router from "vue-router";
 import Audit from "./views/Audits.vue";
 import Configs from "./views/Configs.vue";
 import Raports from "./views/Raports.vue";
+import Machines from "./views/Machines.vue";
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
       path: "/raports",
       name: "raports",
       component: Raports
+    },
+    {
+      path: "/machines",
+      name: "machines",
+      component: Machines
     },
     {
       path: "/about",

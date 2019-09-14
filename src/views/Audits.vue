@@ -2,7 +2,7 @@
   <v-container>
     <h1>Run preconfigured audit</h1>
     <v-row>
-      <v-col>
+      <v-col col="12">
         <v-select
           v-model="configSelect"
           :items="configsList"
@@ -10,11 +10,19 @@
           v-on:change="selectConfig"
         ></v-select>
       </v-col>
+      <v-col col="12">
+        <v-select
+          v-model="selectedMachine"
+          :items="machineList"
+          label="Select machines"
+          v-on:change="selectMachine"
+        ></v-select>
+      </v-col>
     </v-row>
     <v-row>
       <v-col>
         <code v-if="configSelect !== null">
-          <pre>{{ runConfig }}</pre>
+          <pre>{{ JSONtoYAML(runConfig) }}</pre>
         </code>
       </v-col>
     </v-row>
@@ -35,13 +43,20 @@
 
 <script>
 import axios from "axios";
+import YAML from "yamljs";
 
 export default {
   data: () => ({
+    //Config Selection
     configsList: ["Configurations not found!"],
     configSelect: null,
     configs: null,
-    runConfig: null
+    runConfig: null,
+
+    //Machine Selection
+    machineList: ["No machines in network!"],
+    selectedMachine: null,
+    runMachine: null
   }),
   methods: {
     getConfig() {
@@ -55,14 +70,22 @@ export default {
         ? this.configs.find(config => config.name == value)
         : null;
     },
+    selectMachine(value) {
+      this.runMachine = value;
+      console.log(value);
+    },
     sendRunRequest() {
       axios
-        .post("http://10.250.166.121:8080/run", {
+        .post("http://10.250.166.121:8080/report/", {
           configName: this.runConfig.name
         })
         .then(response => {
           console.log(response);
         });
+    },
+    JSONtoYAML(obj) {
+      var yamlStr = YAML.stringify(obj);
+      return yamlStr;
     }
   },
   mounted() {
@@ -70,3 +93,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+pre {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+</style>
