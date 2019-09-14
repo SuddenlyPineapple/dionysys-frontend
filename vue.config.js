@@ -1,4 +1,3 @@
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === "production" ? "/dionysys-frontend/" : "/"
+  baseUrl: process.env.NODE_ENV === "production" ? "/dionysys-frontend/" : "/"
 };
