@@ -6,17 +6,25 @@
       </v-col>
       <v-col cols="12">
         <v-data-table
-          :headers="headers"
-          :items="raportsList"
+          :headers="machinesHeaders"
+          :items="machinesList"
           :items-per-page="5"
           class="elevation-1"
           :dense="dense"
-          :expanded.sync="expanded"
+          :expanded.sync="expandedMachines"
           show-expand
+          multi-sort
+          :search="search"
+          :key="machinesList.name"
         >
           <template v-slot:top>
             <v-toolbar flat color="white">
-              <v-toolbar-title>Dense Table</v-toolbar-title>
+              <v-text-field
+                v-model="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
               <div class="flex-grow-1"></div>
               <v-switch
                 v-model="dense"
@@ -26,8 +34,10 @@
               ></v-switch>
             </v-toolbar>
           </template>
-          <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">{{ item }}</td>
+          <template v-slot:expanded-item="{ item }">
+            <td colspan="5">
+              <code>{{ JSONtoYAML(item) }}</code>
+            </td>
           </template>
         </v-data-table>
       </v-col>
@@ -36,33 +46,41 @@
 </template>
 
 <script>
+import axios from "axios";
+import YAML from "yamljs";
+
 export default {
   data: () => ({
-    headers: [
+    machinesHeaders: [
       {
-        text: "Machine ID",
+        text: "Machine Name",
         align: "left",
-        value: "id"
+        value: "name"
       },
       { text: "Date", value: "date" },
-      { text: "Status", value: "status" }
+      { text: "Build Number", value: "minBuildNumber" },
+      { text: "Patch Number", value: "minPatchNumber" }
     ],
-    raportsList: [
-      {
-        id: "12345678",
-        date: "12-28-2019",
-        status: "DISPATCHED",
-        isCompleted: false
-      },
-      {
-        id: "123",
-        date: "12-28-1999",
-        status: "COMPLETED",
-        isCompleted: true
-      }
-    ],
-    expanded: [],
-    dense: true
-  })
+    machinesList: [],
+    expandedMachines: [],
+    dense: true,
+    search: null
+  }),
+  methods: {
+    getDaemons() {
+      axios.get("http://10.250.166.121:8080/daemon").then(response => {
+        this.machinesList = response.data.daemons.map(daemon => {
+          return { id: daemon.name, ...daemon };
+        });
+      });
+    },
+    JSONtoYAML(obj) {
+      var yamlStr = YAML.stringify(obj);
+      return yamlStr;
+    }
+  },
+  mounted() {
+    this.getDaemons();
+  }
 };
 </script>

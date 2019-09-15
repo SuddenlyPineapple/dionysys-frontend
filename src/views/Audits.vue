@@ -65,6 +65,12 @@ export default {
         this.configs = response.data.configs;
       });
     },
+    getDaemons() {
+      axios.get("http://10.250.166.121:8080/daemon").then(response => {
+        this.machineList = response.data.daemons.map(daemon => daemon.name);
+        console.log(response);
+      });
+    },
     selectConfig(value) {
       this.runConfig = this.configs
         ? this.configs.find(config => config.name == value)
@@ -81,6 +87,7 @@ export default {
         })
         .then(response => {
           console.log(response);
+          this.$router.push({ path: "raports" });
         });
     },
     JSONtoYAML(obj) {
@@ -90,6 +97,7 @@ export default {
   },
   mounted() {
     this.getConfig();
+    this.getDaemons();
   }
 };
 </script>

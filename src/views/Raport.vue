@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>Raports</h1>
+        <h1>Raport - {{ id }}</h1>
       </v-col>
       <v-col cols="12">
         <v-data-table
@@ -16,18 +16,6 @@
           multi-sort
           :search="search"
         >
-          <template v-slot:item="{ item }" columns>
-            <tr>
-              <td>
-                <v-btn fab small text color="error" :to="'/raports/' + item.id"
-                  ><v-icon>mdi-arrow-down-bold-circle-outline</v-icon></v-btn
-                >
-              </td>
-              <td>{{ item.id }}</td>
-              <td>{{ moment(new Date(item.timestamp)) }}</td>
-              <td>{{ item.configName }}</td>
-            </tr>
-          </template>
           <template v-slot:top>
             <v-toolbar flat color="white">
               <v-text-field
@@ -46,9 +34,7 @@
             </v-toolbar>
           </template>
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
-              {{ item }}
-            </td>
+            <td :colspan="headers.length">{{ item }}</td>
           </template>
         </v-data-table>
       </v-col>
@@ -58,18 +44,18 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 
 export default {
+  props: ["id"],
   data: () => ({
     headers: [
       {
-        text: "Raport ID",
+        text: "Machine ID",
         align: "left",
         value: "id"
       },
-      { text: "Date", value: "timestamp" },
-      { text: "Configuration Name", value: "configName" }
+      { text: "Date", value: "date" },
+      { text: "Status", value: "status" }
     ],
     raportsList: [
       {
@@ -90,18 +76,17 @@ export default {
     search: null
   }),
   methods: {
-    getRaports() {
-      axios.get("http://10.250.166.121:8080/report").then(response => {
-        this.raportsList = response.data.reports;
-        console.log(response);
-      });
-    },
-    moment: function(date) {
-      return moment(date).format("DD/MM/YYYY HH:mm:ss");
+    getRaport() {
+      axios
+        .get("http://10.250.166.121:8080/report/" + this.id)
+        .then(response => {
+          this.raportsList = response.data.machines;
+          console.log(response);
+        });
     }
   },
   mounted() {
-    this.getRaports();
+    this.getRaport();
   }
 };
 </script>

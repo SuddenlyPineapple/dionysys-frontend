@@ -5,6 +5,7 @@ import Audit from "./views/Audits.vue";
 import Configs from "./views/Configs.vue";
 import Raports from "./views/Raports.vue";
 import Machines from "./views/Machines.vue";
+import Raport from "./views/Raport.vue";
 
 Vue.use(Router);
 
@@ -30,6 +31,12 @@ export default new Router({
       path: "/machines",
       name: "machines",
       component: Machines
+    },
+    {
+      path: "/raports/:id",
+      name: "raport",
+      props: true,
+      component: Raport
     },
     {
       path: "/about",
