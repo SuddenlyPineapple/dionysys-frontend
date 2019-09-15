@@ -7,10 +7,12 @@
             ><strong>Name:</strong> {{ machine.name }}</v-card-text
           >
           <v-card-text class="pt-1"
-            ><strong>Vunerabilities: </strong>
-            <span :class="machine.invalidCount ? 'red--text' : ''">{{
-              machine.invalidCount
-            }}</span></v-card-text
+            ><strong
+              >Vunerabilities:
+              <span :class="machine.invalidCount ? 'red--text' : ''">{{
+                machine.invalidCount
+              }}</span></strong
+            ></v-card-text
           >
           <v-card-text
             class="pt-1"
@@ -19,7 +21,7 @@
           >
             <strong>{{ prop.name }}: </strong>
             <span :class="prop.valid ? 'green--text' : ''">
-              <span v-if="Array.isArray(prop.actual)">prop.actual</span>
+              <span v-if="Array.isArray(prop.actual)">{{ prop.actual }} </span>
               <span v-else-if="prop.name === 'antivirus' && prop.actual">
                 <v-icon class="green--text" v-if="prop.actual"
                   >mdi-shield-lock</v-icon

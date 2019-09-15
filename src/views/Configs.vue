@@ -254,6 +254,7 @@ export default {
       //     users: this.users,
       //     ports: this.ports.map(port => parseInt(port))
       //  });
+      this.$router.push({ path: "/" });
     },
     appsChanged(value, item) {
       console.log(value, item);

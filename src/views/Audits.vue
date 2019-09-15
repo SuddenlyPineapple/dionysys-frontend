@@ -83,7 +83,8 @@ export default {
     sendRunRequest() {
       axios
         .post("http://10.250.166.121:8080/report/", {
-          configName: this.runConfig.name
+          configName: this.runConfig.name,
+          machineName: this.runMachine
         })
         .then(response => {
           console.log(response);
