@@ -9,6 +9,12 @@ import moment from 'moment';
             <strong>Scan date: </strong>{{ moment(new Date(machine.date)) }}
           </v-card-text>
           <v-card-text class="pt-1">
+            <strong>System: </strong>{{ machine.systemInfo.name }}
+          </v-card-text>
+          <v-card-text class="pt-1">
+            <strong>System Version: </strong>{{ machine.systemInfo.version }}
+          </v-card-text>
+          <v-card-text class="pt-1">
             <strong>Build Number: </strong>{{ machine.minBuildNumber }}
           </v-card-text>
           <v-card-text class="pt-1">

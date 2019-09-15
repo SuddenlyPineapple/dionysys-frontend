@@ -61,6 +61,8 @@ export default {
         value: "name"
       },
       { text: "Date", value: "date" },
+      { text: "System", value: "systemInfo.name" },
+      { text: "Version", value: "systemInfo.version" },
       { text: "Build Number", value: "minBuildNumber" },
       { text: "Patch Number", value: "minPatchNumber" }
     ],
@@ -74,7 +76,7 @@ export default {
   },
   methods: {
     getDaemons() {
-      axios.get("http://10.250.166.121:8080/daemon").then(response => {
+      axios.get("http://hiosdrapi.ddns.net:8080/daemon").then(response => {
         this.machinesList = response.data.daemons.map(daemon => {
           return {
             id: daemon.name,

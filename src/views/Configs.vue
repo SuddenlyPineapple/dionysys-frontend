@@ -220,7 +220,7 @@ export default {
   }),
   methods: {
     sendConfigRequest() {
-      axios.post("http://10.250.166.121:8080/config", {
+      axios.post("http://hiosdrapi.ddns.net:8080/config", {
         name: this.configName,
         minBuildNumber: this.minBuildNumber,
         minPatchNumber: this.minPatchNumber,

@@ -83,7 +83,7 @@ export default {
   methods: {
     getRaport() {
       axios
-        .get("http://10.250.166.121:8080/report/" + this.id)
+        .get("http://hiosdrapi.ddns.net:8080/report/" + this.id)
         .then(response => {
           this.raportsList = response.data.machines.map(machine => {
             return { id: machine.name, ...machine };

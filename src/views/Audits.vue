@@ -60,13 +60,13 @@ export default {
   }),
   methods: {
     getConfig() {
-      axios.get("http://10.250.166.121:8080/config/").then(response => {
+      axios.get("http://hiosdrapi.ddns.net:8080/config/").then(response => {
         this.configsList = response.data.configs.map(config => config.name);
         this.configs = response.data.configs;
       });
     },
     getDaemons() {
-      axios.get("http://10.250.166.121:8080/daemon").then(response => {
+      axios.get("http://hiosdrapi.ddns.net:8080/daemon").then(response => {
         this.machineList = response.data.daemons.map(daemon => daemon.name);
         console.log(response);
       });
@@ -82,7 +82,7 @@ export default {
     },
     sendRunRequest() {
       axios
-        .post("http://10.250.166.121:8080/report/", {
+        .post("http://hiosdrapi.ddns.net:8080/report/", {
           configName: this.runConfig.name,
           machineName: this.runMachine
         })

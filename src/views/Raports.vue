@@ -91,7 +91,7 @@ export default {
   }),
   methods: {
     getRaports() {
-      axios.get("http://10.250.166.121:8080/report").then(response => {
+      axios.get("http://hiosdrapi.ddns.net:8080/report").then(response => {
         this.raportsList = response.data.reports;
         console.log(response);
       });
