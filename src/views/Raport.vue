@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>Raport - {{ id }}</h1>
+        <h1>Raport {{ id }} for {{ configName }}</h1>
       </v-col>
       <v-col cols="12">
         <v-data-table
@@ -11,8 +11,6 @@
           :items-per-page="5"
           class="elevation-1"
           :dense="dense"
-          :expanded.sync="expanded"
-          show-expand
           multi-sort
           :search="search"
         >
@@ -33,10 +31,24 @@
               ></v-switch>
             </v-toolbar>
           </template>
+          <template v-slot:item="{ item }" columns>
+            <tr v-on:click="setMachine(item)">
+              <td>{{ item.id }}</td>
+              <td :class="item.valid ? 'green--text' : 'red--text'">
+                {{ item.valid ? "true" : "false" }}
+              </td>
+              <td class="red--text">{{ item.invalidCount }}</td>
+            </tr>
+          </template>
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">{{ item }}</td>
           </template>
         </v-data-table>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <Diff v-if="selectedMachine" :machine="selectedMachine"></Diff>
       </v-col>
     </v-row>
   </v-container>
@@ -44,6 +56,7 @@
 
 <script>
 import axios from "axios";
+import Diff from "../components/Diff";
 
 export default {
   props: ["id"],
@@ -54,35 +67,33 @@ export default {
         align: "left",
         value: "id"
       },
-      { text: "Date", value: "date" },
-      { text: "Status", value: "status" }
+      { text: "Secure", value: "valid" },
+      { text: "Vunerabilities", value: "invalidCount" }
     ],
-    raportsList: [
-      {
-        id: "12345678",
-        date: "12-28-2019",
-        status: "DISPATCHED",
-        isCompleted: false
-      },
-      {
-        id: "123",
-        date: "12-28-1999",
-        status: "COMPLETED",
-        isCompleted: true
-      }
-    ],
+    raportsList: [],
     expanded: [],
     dense: true,
-    search: null
+    search: null,
+    configName: null,
+    selectedMachine: null
   }),
+  components: {
+    Diff
+  },
   methods: {
     getRaport() {
       axios
         .get("http://10.250.166.121:8080/report/" + this.id)
         .then(response => {
-          this.raportsList = response.data.machines;
+          this.raportsList = response.data.machines.map(machine => {
+            return { id: machine.name, ...machine };
+          });
+          this.configName = response.data.configName;
           console.log(response);
         });
+    },
+    setMachine(value) {
+      this.selectedMachine = value;
     }
   },
   mounted() {

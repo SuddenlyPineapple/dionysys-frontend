@@ -36,7 +36,8 @@
           </template>
           <template v-slot:expanded-item="{ item }">
             <td colspan="5">
-              <code>{{ JSONtoYAML(item) }}</code>
+              <Machine :machine="item"></Machine>
+              <!-- <code>{{ JSONtoYAML(item) }}</code> -->
             </td>
           </template>
         </v-data-table>
@@ -48,6 +49,8 @@
 <script>
 import axios from "axios";
 import YAML from "yamljs";
+import moment from "moment";
+import Machine from "../components/Machine";
 
 export default {
   data: () => ({
@@ -66,17 +69,27 @@ export default {
     dense: true,
     search: null
   }),
+  components: {
+    Machine
+  },
   methods: {
     getDaemons() {
       axios.get("http://10.250.166.121:8080/daemon").then(response => {
         this.machinesList = response.data.daemons.map(daemon => {
-          return { id: daemon.name, ...daemon };
+          return {
+            id: daemon.name,
+            ...daemon,
+            date: this.moment(new Date(daemon.date * 1000))
+          };
         });
       });
     },
     JSONtoYAML(obj) {
       var yamlStr = YAML.stringify(obj);
       return yamlStr;
+    },
+    moment: function(date) {
+      return moment(date).format("DD/MM/YYYY HH:mm:ss");
     }
   },
   mounted() {

@@ -66,6 +66,15 @@
             </v-list-item>
           </template>
         </v-combobox>
+        <v-card class="ma-4 pa-2" v-if="!!applications">
+          <v-card-text>Input Apps Versions</v-card-text>
+          <v-card-text v-for="(app, index) in applications" v-bind:key="index">
+            <v-text-field
+              :label="app"
+              v-on:change="appsChanged($event, app)"
+            ></v-text-field>
+          </v-card-text>
+        </v-card>
         <v-combobox
           v-model="ports"
           :items="predefinedPorts"
@@ -83,6 +92,28 @@
                 <v-list-item-title>
                   No results matching "<strong
                     >{{ typedPorts }} but you can alwasy click Tab</strong
+                  >". Press <kbd>enter</kbd> to create a new one
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-combobox>
+        <v-combobox
+          v-model="webpages"
+          :search-input.sync="typedWebpage"
+          hide-selected
+          hint="Maximum of 5 users"
+          label="Add webpages"
+          multiple
+          persistent-hint
+          small-chips
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  No results matching "<strong
+                    >{{ typedWebpage }} but you can alwasy click Tab</strong
                   >". Press <kbd>enter</kbd> to create a new one
                 </v-list-item-title>
               </v-list-item-content>
@@ -165,6 +196,10 @@ export default {
     users: null,
     typedUser: null,
 
+    //UserCombobox
+    webpages: null,
+    typedWebpage: null,
+
     //AppCombobox
     applications: null,
     typedApplication: null,
@@ -175,6 +210,8 @@ export default {
       "Notepad++",
       "Windows Defender"
     ],
+    apps: [],
+    model: null,
 
     //PortsCombobox
     ports: null,
@@ -188,7 +225,7 @@ export default {
         minBuildNumber: this.minBuildNumber,
         minPatchNumber: this.minPatchNumber,
         antivirus: this.requireAntyvirus,
-        apps: this.applications,
+        apps: this.apps,
         disks: [
           {
             letter: this.selectedDirveLetter,
@@ -204,7 +241,9 @@ export default {
       //     minBuildNumber: this.minBuildNumber,
       //     minPatchNumber: this.minPatchNumber,
       //     antivirus: this.requireAntyvirus,
-      //     apps: this.applications,
+      //     apps: this.apps.filter(app => {
+      //       console.log(app);
+      //     }),
       //     disks: [
       //       {
       //         letter: this.selectedDirveLetter,
@@ -214,7 +253,11 @@ export default {
       //     minMemory: parseInt(this.minMemory),
       //     users: this.users,
       //     ports: this.ports.map(port => parseInt(port))
-      //   });
+      //  });
+    },
+    appsChanged(value, item) {
+      console.log(value, item);
+      this.apps.push({ name: item, version: value });
     }
   }
 };
