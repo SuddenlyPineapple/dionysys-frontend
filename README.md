@@ -1,5 +1,5 @@
 # DIONYSYS
-
+[![Build Status](https://travis-ci.org/SuddenlyPineapple/dionysys-frontend.svg?branch=master)](https://travis-ci.org/SuddenlyPineapple/dionysys-frontend.svg?branch=master) 
 ## Project setup
 ```
 npm install
