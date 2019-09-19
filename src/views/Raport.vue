@@ -49,6 +49,11 @@
     <v-row>
       <v-col cols="12">
         <Diff v-if="selectedMachine" :machine="selectedMachine"></Diff>
+        <card v-else>
+          <v-card-text>
+            <i>Hint: click on row with machine ;)</i>
+          </v-card-text>
+        </card>
       </v-col>
     </v-row>
   </v-container>
@@ -89,7 +94,7 @@ export default {
             return { id: machine.name, ...machine };
           });
           this.configName = response.data.configName;
-          console.log(response);
+          //console.log(response);
         });
     },
     setMachine(value) {

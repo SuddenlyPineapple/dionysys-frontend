@@ -15,6 +15,8 @@
           show-expand
           multi-sort
           :search="search"
+          sort-by="date"
+          :sort-desc="false"
         >
           <template v-slot:item="{ item }" columns>
             <tr>
@@ -93,7 +95,7 @@ export default {
     getRaports() {
       axios.get("http://hiosdrapi.ddns.net:8080/report").then(response => {
         this.raportsList = response.data.reports;
-        console.log(response);
+        //console.log(response);
       });
     },
     moment: function(date) {

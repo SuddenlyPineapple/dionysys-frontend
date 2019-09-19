@@ -14,7 +14,7 @@
         <v-select
           v-model="selectedMachine"
           :items="machineList"
-          label="Select machines"
+          label="Select machines (no select = all)"
           v-on:change="selectMachine"
         ></v-select>
       </v-col>
@@ -68,7 +68,7 @@ export default {
     getDaemons() {
       axios.get("http://hiosdrapi.ddns.net:8080/daemon").then(response => {
         this.machineList = response.data.daemons.map(daemon => daemon.name);
-        console.log(response);
+        //console.log(response);
       });
     },
     selectConfig(value) {
@@ -78,7 +78,7 @@ export default {
     },
     selectMachine(value) {
       this.runMachine = value;
-      console.log(value);
+      //console.log(value);
     },
     sendRunRequest() {
       axios
@@ -86,8 +86,7 @@ export default {
           configName: this.runConfig.name,
           machineName: this.runMachine
         })
-        .then(response => {
-          console.log(response);
+        .then(() => {
           this.$router.push({ path: "raports" });
         });
     },

@@ -120,6 +120,28 @@
             </v-list-item>
           </template>
         </v-combobox>
+        <v-combobox
+          v-model="groups"
+          :search-input.sync="typedGroups"
+          hide-selected
+          hint="Maximum of 5 users"
+          label="Add user groups"
+          multiple
+          persistent-hint
+          small-chips
+        >
+          <template v-slot:no-data>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>
+                  No results matching "<strong
+                    >{{ typedGroups }} but you can alwasy click Tab</strong
+                  >". Press <kbd>enter</kbd> to create a new one
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-combobox>
         <v-checkbox
           v-model="requireAntyvirus"
           label="Require installed Antyvirus"
@@ -196,9 +218,13 @@ export default {
     users: null,
     typedUser: null,
 
-    //UserCombobox
+    //WebCombobox
     webpages: null,
     typedWebpage: null,
+
+    //GroupsCombobox
+    groups: null,
+    typedGroups: null,
 
     //AppCombobox
     applications: null,
@@ -226,6 +252,7 @@ export default {
         minPatchNumber: this.minPatchNumber,
         antivirus: this.requireAntyvirus,
         apps: this.apps,
+        groups: this.groups,
         disks: [
           {
             letter: this.selectedDirveLetter,
@@ -257,7 +284,7 @@ export default {
       this.$router.push({ path: "/" });
     },
     appsChanged(value, item) {
-      console.log(value, item);
+      //console.log(value, item);
       this.apps.push({ name: item, version: value });
     }
   }
